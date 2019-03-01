@@ -27,7 +27,7 @@ module Bank
       #   UPDATE `bank_balances` SET `balance` = `balance` - ? WHERE `name` = ?
       # SQL
       client1.query <<~SQL
-        UPDATE `bank_balances` SET `balance` = `balance` - #{transfer.to_i} WHERE `name` = '#{client1.escape(from)}'
+        INSERT INTO `bank_balances` VALUES ('#{client1.escape(from)}', - #{transfer.to_i}) ON DUPLICATE KEY UPDATE `balance` = `balance` - #{transfer.to_i}
       SQL
       client1.query 'COMMIT'
     end
@@ -65,7 +65,7 @@ module Bank
       client.query <<~SQL
         CREATE TABLE `bank_balances` (
           `name` varchar(100) NOT NULL,
-          `balance` bigint(20) unsigned NOT NULL,
+          `balance` bigint(20) NOT NULL,
           PRIMARY KEY(`name`)
         ) ENGINE=InnoDB
       SQL
