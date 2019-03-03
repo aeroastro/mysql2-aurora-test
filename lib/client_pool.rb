@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 require 'mysql2'
+require 'mysql2/awsaurora'
 require 'yaml'
 
 class ClientPool
   YAML_PATH = 'database.yml'
 
   def self.client_class
-    Mysql2::Client
+    @client_class ||= Mysql2::Client
+  end
+
+  def self.with_client_class(klass)
+    prev_klass = @client_class
+    @client_class = klass
+    yield
+  ensure
+    @client_class = prev_klass
   end
 
   def self.setup!
