@@ -14,7 +14,7 @@ namespace :bank do # rubocop:disable Metrics/BlockLength
     Bank.setup!
 
     concurrency = args[:concurrency]&.to_i || 10
-    max_sleep = args[:max_sleep]&.to_i || 4.0
+    max_sleep = args[:max_sleep]&.to_f || 4.0
 
     logger = Logger.new('log/bank_transfer.log')
     puts "Concurrency: #{concurrency}"
