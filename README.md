@@ -1,10 +1,6 @@
-# mysql2 reconnect
+# Mysql2 Aurora Test
 
-Example codes to looking into Mysql2 reconnect options
-
-`reconnect: false` makes you happy!
-
-https://dev.mysql.com/doc/refman/8.0/en/c-api-auto-reconnect.html
+Sample codes to check the validity of Mysql2::AWSAurora::Client
 
 ## Prerequisites
 
@@ -19,3 +15,4 @@ $ cp database.yml.example database.yml
 $ vim database.yml # or use your favorite editor to fill connection config
 $ bundle exec rake -T # see what you can do
 ```
+
