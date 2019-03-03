@@ -1,4 +1,4 @@
-# Mysql2 Aurora Test
+# Mysql2 AWS Aurora Test
 
 Sample codes to check the validity of Mysql2::AWSAurora::Client
 https://github.com/brianmario/mysql2/pull/1025
