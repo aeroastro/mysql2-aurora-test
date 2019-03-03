@@ -15,7 +15,7 @@ module TransactionHelper
       assert_equal(Bank.default_total_balance, prev_balance)
 
       assert_raises Mysql2::Error::ConnectionError do
-        Bank.transfer_balance(client_options: { reconnect: true }) do |client1, client2|
+        Bank.transfer_balance(client_options: { reconnect: false }) do |client1, client2|
           client2.query("KILL CONNECTION #{client1.thread_id}")
         end
       end
@@ -71,6 +71,22 @@ module TransactionHelper
       end
 
       refute_equal(prev_balance, Bank.fetch_total_balance)
+    end
+  end
+
+  def test_transaction_with_reconnect_true_for_balance_only
+    ClientPool.with_client_class(client_class) do
+      prev_balance = Bank.fetch_total_balance
+      assert_equal(Bank.default_total_balance, prev_balance)
+
+      begin
+        Bank.transfer_balance(client_options: { reconnect: true }) do |client1, client2|
+          client2.query("KILL CONNECTION #{client1.thread_id}")
+        end
+      rescue # Do not care about exception
+      end
+
+      assert_equal(prev_balance, Bank.fetch_total_balance)
     end
   end
 end
